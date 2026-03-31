@@ -1,0 +1,40 @@
+{
+  "models": [
+    {
+      "title": "Qwen Coder (Local)",
+      "provider": "ollama",
+      "model": "qwen2.5-coder:14b",
+      "apiBase": "http://localhost:11434"
+    },
+    {
+      "title": "Qwen General (Local)",
+      "provider": "ollama",
+      "model": "qwen2.5:14b",
+      "apiBase": "http://localhost:11434"
+    }
+  ],
+  "tabAutocompleteModel": {
+    "title": "Autocomplete",
+    "provider": "ollama",
+    "model": "qwen2.5-coder:7b",
+    "apiBase": "http://localhost:11434"
+  },
+  "embeddingsProvider": {
+    "provider": "ollama",
+    "model": "nomic-embed-text",
+    "apiBase": "http://localhost:11434"
+  },
+  "customCommands": [
+    {
+      "name": "explain",
+      "prompt": "Explain this code clearly and concisely. Focus on what it does and why.",
+      "description": "Explain selected code"
+    },
+    {
+      "name": "refactor",
+      "prompt": "Refactor this code to be cleaner and more readable. Keep the same behavior.",
+      "description": "Refactor selected code"
+    }
+  ],
+  "allowAnonymousTelemetry": false
+}

@@ -1,0 +1,42 @@
+# Core
+pip
+setuptools
+wheel
+uv
+
+# Data
+pandas
+numpy
+polars
+pyarrow
+
+# Web / API
+requests
+httpx
+fastapi
+uvicorn
+
+# Dev tools
+pytest
+ruff
+black
+mypy
+ipython
+jupyter
+
+# Database
+sqlalchemy
+psycopg2-binary
+alembic
+
+# Utilities
+python-dotenv
+pydantic
+click
+rich
+typer
+
+# AI / ML (uncomment as needed)
+# torch
+# transformers
+# langchain

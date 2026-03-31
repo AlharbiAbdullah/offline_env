@@ -1,0 +1,17 @@
+# Aider configuration for offline use with Ollama
+# Place this at ~/.aider.conf.yml on the Windows laptop
+
+# Default model
+model: ollama/qwen2.5-coder:14b
+
+# Git integration
+auto-commits: true
+dirty-commits: false
+
+# Editor
+editor-model: ollama/qwen2.5-coder:7b
+
+# Behavior
+stream: true
+pretty: true
+dark-mode: true
