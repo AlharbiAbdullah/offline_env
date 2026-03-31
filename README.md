@@ -41,12 +41,17 @@ A fully offline development setup for an Ubuntu Linux laptop with local AI codin
 
 ## Model Selection by Hardware
 
-| RAM/VRAM | Coding Model | General Model |
-|----------|-------------|---------------|
-| 8 GB     | qwen2.5-coder:7b | llama3.1:8b |
-| 16 GB    | qwen2.5-coder:14b | qwen2.5:14b |
-| 24 GB    | qwen2.5-coder:32b | llama3.1:70b (Q4) |
-| 32+ GB   | qwen2.5-coder:32b | qwen2.5:72b (Q4) |
+| RAM/VRAM | Coding Model | General/Reasoning Model |
+|----------|-------------|------------------------|
+| 8 GB     | qwen3.5:9b (6.6 GB) | qwen3:8b (5.2 GB) |
+| 16-24 GB | qwen3.5:27b (17 GB) | qwen3:14b (9.3 GB) |
+| 32+ GB   | qwen3-coder:30b (19 GB, MoE) | qwen3.5:27b (17 GB) |
+
+### Model Notes
+- **qwen3-coder:30b**: Best local coding model. MoE architecture, only 3.3B active params so it runs fast despite size. 256K context. Top SWE-bench scores.
+- **qwen3.5:27b**: Strong all-around coding and reasoning. Has coding-specific variants.
+- **qwen3.5:9b**: Best small model. Good for quick tasks or constrained hardware.
+- **qwen3:8b/14b/30b**: General purpose with hybrid thinking mode.
 
 ## Components
 

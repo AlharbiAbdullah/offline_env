@@ -26,4 +26,4 @@ fi
 
 echo ""
 echo "Usage: cd into a project, then run:"
-echo "  aider --model ollama/qwen2.5-coder:32b"
+echo "  aider --model ollama/qwen3.5:27b"

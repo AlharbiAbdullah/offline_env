@@ -2,14 +2,14 @@
 # Place this at ~/.aider.conf.yml on the Windows laptop
 
 # Default model
-model: ollama/qwen2.5-coder:14b
+model: ollama/qwen3.5:27b
 
 # Git integration
 auto-commits: true
 dirty-commits: false
 
 # Editor
-editor-model: ollama/qwen2.5-coder:7b
+editor-model: ollama/qwen3.5:9b
 
 # Behavior
 stream: true

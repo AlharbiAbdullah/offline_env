@@ -17,29 +17,30 @@ fi
 
 case "$PROFILE" in
     small)
-        # 8-16 GB RAM, 6-8 GB VRAM
+        # 8-16 GB RAM/VRAM
         models=(
-            "qwen2.5-coder:7b"
-            "llama3.1:8b"
-            "nomic-embed-text"
+            "qwen3.5:9b"          # Coding + general (6.6 GB)
+            "qwen3:8b"            # General reasoning (5.2 GB)
+            "nomic-embed-text"    # Embeddings (274 MB)
         )
         ;;
     medium)
-        # 16-32 GB RAM, 8-12 GB VRAM
+        # 16-24 GB RAM/VRAM
         models=(
-            "qwen2.5-coder:14b"
-            "qwen2.5:14b"
-            "nomic-embed-text"
-            "llama3.1:8b"
+            "qwen3.5:27b"         # Coding + reasoning (17 GB)
+            "qwen3:14b"           # General reasoning (9.3 GB)
+            "qwen3.5:9b"          # Fast fallback (6.6 GB)
+            "nomic-embed-text"    # Embeddings (274 MB)
         )
         ;;
     large)
-        # 32+ GB RAM, 16+ GB VRAM
+        # 32+ GB RAM/VRAM
         models=(
-            "qwen2.5-coder:32b"
-            "qwen2.5:32b"
-            "nomic-embed-text"
-            "qwen2.5-coder:7b"
+            "qwen3-coder:30b"     # Best agentic coding, MoE (19 GB)
+            "qwen3.5:27b"         # Coding + reasoning (17 GB)
+            "qwen3:30b"           # General reasoning (19 GB)
+            "qwen3.5:9b"          # Fast fallback (6.6 GB)
+            "nomic-embed-text"    # Embeddings (274 MB)
         )
         ;;
     *)
