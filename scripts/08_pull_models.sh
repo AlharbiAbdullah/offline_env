@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # Downloads Ollama models while online. Run BEFORE going offline.
-# Usage: ./08_pull_models.sh [small|medium|large]
+# Usage: ./08_pull_models.sh [default]
 
 set -euo pipefail
 
-PROFILE="${1:-medium}"
+PROFILE="${1:-default}"
 
 echo "=== Pulling Ollama Models (Profile: $PROFILE) ==="
 
@@ -16,36 +16,19 @@ if ! curl -s http://localhost:11434/api/tags &>/dev/null; then
 fi
 
 case "$PROFILE" in
-    small)
-        # 8-16 GB RAM/VRAM
+    default)
+        # ASUS ROG Strix G16: 32 GB RAM, RTX 4070 8 GB VRAM
+        # Qwen 3.5 only. ~34 GB disk.
         models=(
-            "qwen3.5:9b"          # Coding + general (6.6 GB)
-            "qwen3:8b"            # General reasoning (5.2 GB)
-            "nomic-embed-text"    # Embeddings (274 MB)
-        )
-        ;;
-    medium)
-        # 16-24 GB RAM/VRAM
-        models=(
-            "qwen3.5:27b"         # Coding + reasoning (17 GB)
-            "qwen3:14b"           # General reasoning (9.3 GB)
-            "qwen3.5:9b"          # Fast fallback (6.6 GB)
-            "nomic-embed-text"    # Embeddings (274 MB)
-        )
-        ;;
-    large)
-        # 32+ GB RAM/VRAM
-        models=(
-            "qwen3-coder:30b"     # Best agentic coding, MoE (19 GB)
-            "qwen3.5:27b"         # Coding + reasoning (17 GB)
-            "qwen3:30b"           # General reasoning (19 GB)
-            "qwen3.5:9b"          # Fast fallback (6.6 GB)
+            "qwen3.5:4b"          # Fast reasoning (3.4 GB)
+            "qwen3.5:9b"          # Fast coding (6.6 GB, fits GPU)
+            "qwen3.5:35b"         # Best coding + reasoning (24 GB)
             "nomic-embed-text"    # Embeddings (274 MB)
         )
         ;;
     *)
         echo "Unknown profile: $PROFILE"
-        echo "Usage: $0 [small|medium|large]"
+        echo "Usage: $0 [default]"
         exit 1
         ;;
 esac

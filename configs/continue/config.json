@@ -1,15 +1,21 @@
 {
   "models": [
     {
-      "title": "Qwen 3.5 (Coding)",
+      "title": "Qwen 3.5 35B (Best)",
       "provider": "ollama",
-      "model": "qwen3.5:27b",
+      "model": "qwen3.5:35b",
       "apiBase": "http://localhost:11434"
     },
     {
-      "title": "Qwen 3 (General)",
+      "title": "Qwen 3.5 9B (Fast)",
       "provider": "ollama",
-      "model": "qwen3:14b",
+      "model": "qwen3.5:9b",
+      "apiBase": "http://localhost:11434"
+    },
+    {
+      "title": "Qwen 3.5 4B (Quick)",
+      "provider": "ollama",
+      "model": "qwen3.5:4b",
       "apiBase": "http://localhost:11434"
     }
   ],

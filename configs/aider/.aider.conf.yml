@@ -1,14 +1,14 @@
 # Aider configuration for offline use with Ollama
-# Place this at ~/.aider.conf.yml on the Windows laptop
+# Place this at ~/.aider.conf.yml on the Ubuntu laptop
 
-# Default model
-model: ollama/qwen3.5:27b
+# Default model (best quality)
+model: ollama/qwen3.5:35b
 
 # Git integration
 auto-commits: true
 dirty-commits: false
 
-# Editor
+# Editor model (fast, for small edits)
 editor-model: ollama/qwen3.5:9b
 
 # Behavior

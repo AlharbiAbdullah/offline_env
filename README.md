@@ -28,30 +28,27 @@ A fully offline development setup for an Ubuntu Linux laptop with local AI codin
 └─────────────────────────────────────────────────┘
 ```
 
-## Hardware Requirements
+## Hardware
 
-> **IMPORTANT**: Update this section with actual laptop specs.
+| Component | Spec |
+|-----------|------|
+| Machine   | ASUS ROG Strix G16 (G614JIR) |
+| CPU       | Intel Core i9-14900HX (24 cores) |
+| RAM       | 32 GB |
+| GPU       | NVIDIA RTX 4070 (8 GB VRAM) |
+| Storage   | 1 TB |
+| OS        | Ubuntu 22.04.5 LTS |
 
-| Component | Minimum | Recommended |
-|-----------|---------|-------------|
-| RAM       | 16 GB   | 32+ GB     |
-| GPU VRAM  | 6 GB    | 12+ GB     |
-| Storage   | 100 GB free | 200+ GB free |
-| GPU       | NVIDIA (CUDA) preferred | NVIDIA RTX 3060+ |
+## Models (Qwen 3.5 family only)
 
-## Model Selection by Hardware
+| Model | Size | Role | Speed |
+|-------|------|------|-------|
+| qwen3.5:4b | 3.4 GB | Fast reasoning, quick questions | Fast (fits GPU) |
+| qwen3.5:9b | 6.6 GB | Fast coding, autocomplete | Fast (fits GPU) |
+| qwen3.5:35b | 24 GB | Best coding + reasoning | Slow (mostly CPU) |
+| nomic-embed-text | 274 MB | Embeddings for search/RAG | Instant |
 
-| RAM/VRAM | Coding Model | General/Reasoning Model |
-|----------|-------------|------------------------|
-| 8 GB     | qwen3.5:9b (6.6 GB) | qwen3:8b (5.2 GB) |
-| 16-24 GB | qwen3.5:27b (17 GB) | qwen3:14b (9.3 GB) |
-| 32+ GB   | qwen3-coder:30b (19 GB, MoE) | qwen3.5:27b (17 GB) |
-
-### Model Notes
-- **qwen3-coder:30b**: Best local coding model. MoE architecture, only 3.3B active params so it runs fast despite size. 256K context. Top SWE-bench scores.
-- **qwen3.5:27b**: Strong all-around coding and reasoning. Has coding-specific variants.
-- **qwen3.5:9b**: Best small model. Good for quick tasks or constrained hardware.
-- **qwen3:8b/14b/30b**: General purpose with hybrid thinking mode.
+Total disk: ~34 GB. No accounts required. All inference runs locally via Ollama.
 
 ## Components
 
@@ -104,7 +101,7 @@ Python 3.12, Node.js 20, Go, Git, uv, ripgrep, fd, jq.
 
 ```bash
 # Pull LLM models
-./scripts/08_pull_models.sh medium   # small | medium | large
+./scripts/08_pull_models.sh
 
 # Cache Docker images as .tar files
 ./scripts/10_cache_docker_images.sh
