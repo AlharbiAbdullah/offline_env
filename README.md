@@ -150,6 +150,56 @@ pip, npm, and docker all need internet by default.
 3. Copy the new `.whl` files to the offline laptop
 4. Run `./scripts/13_install_from_cache.sh`
 
+## USB Supply Chain (Adding Things After Going Offline)
+
+The air-gapped laptop never goes online. All updates come via USB from any online machine.
+
+```
+┌──────────────┐      USB Drive      ┌──────────────────┐
+│ Online       │  ──────────────►    │ Air-Gapped       │
+│ Machine      │   offline_env/      │ Laptop           │
+│ (any laptop, │   ├── python/       │ (sensitive data, │
+│  cafe wifi,  │   ├── ollama/       │  never online)   │
+│  phone)      │   ├── docker/       │                  │
+│              │   └── vscode/       │                  │
+└──────────────┘                     └──────────────────┘
+  usb_prepare.sh                       usb_install.sh
+```
+
+### On the online machine (prepare USB):
+
+```bash
+# Need a Python library
+./usb_prepare.sh /media/usb python requests httpx sqlalchemy
+
+# Need a new Ollama model
+./usb_prepare.sh /media/usb ollama qwen3-coder:30b
+
+# Need a Docker image
+./usb_prepare.sh /media/usb docker postgres:16-alpine
+
+# Need a VS Code extension
+./usb_prepare.sh /media/usb vscode ms-python.python
+```
+
+### On the air-gapped laptop (install from USB):
+
+```bash
+# Install everything on the USB
+./usb_install.sh /media/usb all
+
+# Or install specific types
+./usb_install.sh /media/usb python
+./usb_install.sh /media/usb ollama
+./usb_install.sh /media/usb docker
+```
+
+### Notes
+- The online machine does NOT need to be your machine. Any computer with internet works.
+- Ollama must be installed on the online machine to pull models.
+- Docker must be installed on the online machine to pull images.
+- Python packages are downloaded as wheels. Platform-specific for Linux x86_64.
+
 ## Pre-Flight Checklist (Before Going Offline)
 
 - [ ] All tools installed (09_verify_setup passes)
