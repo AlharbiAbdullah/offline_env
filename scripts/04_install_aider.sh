@@ -10,7 +10,14 @@ if ! command -v python3 &>/dev/null; then
     exit 1
 fi
 
-pip install aider-chat
+# Use pipx on Ubuntu 24.04+ (PEP 668 externally-managed-environment)
+if command -v pipx &>/dev/null; then
+    pipx install aider-chat
+else
+    sudo apt install -y pipx
+    pipx ensurepath
+    pipx install aider-chat
+fi
 
 echo ""
 aider --version 2>/dev/null || echo "Restart terminal if aider command not found."
