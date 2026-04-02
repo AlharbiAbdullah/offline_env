@@ -46,8 +46,10 @@ if ! command -v go &>/dev/null; then
     sudo rm -rf /usr/local/go
     sudo tar -C /usr/local -xzf /tmp/go.tar.gz
     rm /tmp/go.tar.gz
-    # Add to PATH
-    echo 'export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin' >>~/.bashrc
+    # Add to PATH (support both bash and zsh)
+    GOPATH_LINE='export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin'
+    grep -qxF "$GOPATH_LINE" ~/.bashrc 2>/dev/null || echo "$GOPATH_LINE" >>~/.bashrc
+    grep -qxF "$GOPATH_LINE" ~/.zshrc 2>/dev/null || echo "$GOPATH_LINE" >>~/.zshrc
     export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
 else
     echo "Go already installed."

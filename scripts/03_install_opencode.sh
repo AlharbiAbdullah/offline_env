@@ -5,16 +5,19 @@ set -euo pipefail
 
 echo "=== Installing OpenCode ==="
 
+# Ensure go/bin is in PATH
+export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
+
 if command -v go &>/dev/null; then
     echo "Installing via go install..."
     go install github.com/opencode-ai/opencode@latest
-elif command -v curl &>/dev/null; then
-    echo "Downloading OpenCode binary..."
-    echo "Visit: https://github.com/opencode-ai/opencode/releases/latest"
-    echo "Download the Linux amd64 binary and place it in /usr/local/bin/"
+    # Ensure go/bin is in shell PATH
+    GOPATH_LINE='export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin'
+    grep -qxF "$GOPATH_LINE" ~/.zshrc 2>/dev/null || echo "$GOPATH_LINE" >>~/.zshrc
+    grep -qxF "$GOPATH_LINE" ~/.bashrc 2>/dev/null || echo "$GOPATH_LINE" >>~/.bashrc
 else
-    echo "Install Go first (script 07) or download manually."
-    exit 1
+    echo "Go not found. Installing OpenCode via install script..."
+    curl -fsSL https://raw.githubusercontent.com/opencode-ai/opencode/main/install.sh | bash
 fi
 
 # Copy config
