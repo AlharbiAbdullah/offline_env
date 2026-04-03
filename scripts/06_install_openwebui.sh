@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Installs Open WebUI (ChatGPT-like interface for Ollama)
+# Installs and starts Open WebUI (ChatGPT-like interface for Ollama)
 
 set -euo pipefail
 
@@ -19,15 +19,8 @@ docker pull ghcr.io/open-webui/open-webui:main
 # Remove old container if exists
 docker rm -f open-webui 2>/dev/null || true
 
-# Create start script
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-cat >"$SCRIPT_DIR/start_openwebui.sh" <<'EOF'
-#!/usr/bin/env bash
-# Start Open WebUI (connects to Ollama on host)
-
-# Remove old container if exists
-docker rm -f open-webui 2>/dev/null || true
-
+# Start Open WebUI
+echo "Starting Open WebUI..."
 docker run -d \
     --name open-webui \
     --restart always \
@@ -36,12 +29,6 @@ docker run -d \
     -v open-webui:/app/backend/data \
     ghcr.io/open-webui/open-webui:main
 
+echo ""
 echo "Open WebUI starting... (takes ~2 minutes on first run)"
 echo "Access at http://localhost:3000"
-EOF
-chmod +x "$SCRIPT_DIR/start_openwebui.sh"
-
-echo ""
-echo "Open WebUI image pulled."
-echo "Run './scripts/start_openwebui.sh' to start it."
-echo "Access at http://localhost:3000 (wait ~2 minutes on first run)"
