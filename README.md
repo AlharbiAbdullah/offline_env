@@ -37,7 +37,7 @@ A fully offline development setup for an Ubuntu Linux laptop with local AI codin
 | RAM       | 32 GB |
 | GPU       | NVIDIA RTX 4070 (8 GB VRAM) |
 | Storage   | 1 TB |
-| OS        | Ubuntu 22.04.5 LTS |
+| OS        | Ubuntu 24.04 LTS |
 
 ## Models (Qwen 3.5 family only)
 
