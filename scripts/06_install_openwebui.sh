@@ -13,17 +13,25 @@ fi
 echo "Pulling Open WebUI image..."
 docker pull ghcr.io/open-webui/open-webui:main
 
+# Remove old container if exists
+docker rm -f open-webui 2>/dev/null || true
+
 # Create start script
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cat >"$SCRIPT_DIR/start_openwebui.sh" <<'EOF'
 #!/usr/bin/env bash
 # Start Open WebUI (connects to Ollama on host)
+
+# Remove old container if exists
+docker rm -f open-webui 2>/dev/null || true
+
 docker run -d \
     --name open-webui \
     --restart always \
-    --network host \
+    -p 8080:8080 \
+    --add-host=host.docker.internal:host-gateway \
     -v open-webui:/app/backend/data \
-    -e OLLAMA_BASE_URL=http://localhost:11434 \
+    -e OLLAMA_BASE_URL=http://host.docker.internal:11434 \
     ghcr.io/open-webui/open-webui:main
 
 echo "Open WebUI running at http://localhost:8080"
