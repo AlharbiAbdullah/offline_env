@@ -28,7 +28,7 @@ docker rm -f open-webui 2>/dev/null || true
 docker run -d \
     --name open-webui \
     --restart always \
-    -p 8080:8080 \
+    -p 8080:8000 \
     --add-host=host.docker.internal:host-gateway \
     -v open-webui:/app/backend/data \
     -e OLLAMA_BASE_URL=http://host.docker.internal:11434 \
