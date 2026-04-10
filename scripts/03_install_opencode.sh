@@ -3,12 +3,10 @@
 
 set -euo pipefail
 
-echo "=== Installing OpenCode ==="
+echo "=== Installing OpenCode v1.3.17 ==="
 
-# Remove old version if installed via go
-rm -f "$HOME/go/bin/opencode" 2>/dev/null
-
-# Install via official installer
+# Install via official installer (online staging machine only)
+# For air-gap deploy, copy the resulting binary into the tarball at bin/opencode
 curl -fsSL https://opencode.ai/install | bash
 
 # Copy config

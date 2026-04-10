@@ -75,12 +75,8 @@ Battle-tested CLI coding agent with deep git integration.
 Container runtime for development services.
 - See: `scripts/05_install_docker.sh`
 
-### 6. Open WebUI (Chat Interface)
-ChatGPT-like web interface for Ollama models.
-- See: `scripts/06_install_openwebui.sh`
-
-### 7. Dev Tools (Languages, Package Managers)
-Python 3.12, Node.js 20, Go, Git, uv, ripgrep, fd, jq.
+### 6. Dev Tools (Languages, Package Managers)
+Python 3.12, Node.js 22 LTS, Git, uv, ripgrep, fd, jq.
 - See: `scripts/07_install_devtools.sh`
 
 ## Setup Order
@@ -88,13 +84,12 @@ Python 3.12, Node.js 20, Go, Git, uv, ripgrep, fd, jq.
 ### Phase 1: Install (on Ubuntu laptop, while online)
 
 ```bash
-./scripts/07_install_devtools.sh    # Python, Node, Go, Git first
+./scripts/07_install_devtools.sh    # Python, Node, Git, uv first
 ./scripts/01_install_ollama.sh
 ./scripts/02_install_vscode.sh
 ./scripts/03_install_opencode.sh
 ./scripts/04_install_aider.sh
 ./scripts/05_install_docker.sh
-./scripts/06_install_openwebui.sh
 ```
 
 ### Phase 2: Cache everything (while online)

@@ -38,7 +38,6 @@ echo -e "${YELLOW}Core Tools:${NC}"
 check "Git" "git --version"
 check "Python" "python3 --version"
 check "Node.js" "node --version"
-check "Go" "go version"
 check "Docker" "docker --version"
 check "ripgrep" "rg --version"
 check "jq" "jq --version"
@@ -109,23 +108,6 @@ else
     printf "  %-20s" "VS Code"
     echo -e "${RED}NOT FOUND${NC}"
     ((FAILED++))
-fi
-
-# Docker Images
-echo ""
-echo -e "${YELLOW}Docker Images:${NC}"
-if command -v docker &>/dev/null; then
-    printf "  %-20s" "Open WebUI"
-    if docker images --format '{{.Repository}}' 2>/dev/null | grep -q "open-webui"; then
-        echo -e "${GREEN}OK${NC}"
-        ((PASSED++))
-    else
-        echo -e "${YELLOW}NOT PULLED${NC}"
-        ((WARNINGS++))
-    fi
-else
-    echo -e "  ${YELLOW}Docker not available, skipping.${NC}"
-    ((WARNINGS++))
 fi
 
 # Cache dirs

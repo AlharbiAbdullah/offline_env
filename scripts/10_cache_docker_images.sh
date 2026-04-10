@@ -10,11 +10,9 @@ mkdir -p "$OUTPUT_DIR"
 echo "=== Caching Docker Images ==="
 
 images=(
-    "python:3.12-slim"
-    "node:20-slim"
-    "postgres:16-alpine"
-    "redis:7-alpine"
-    "ghcr.io/open-webui/open-webui:main"
+    "python:3.12.13-slim"
+    "node:22.22.2-slim"
+    "postgres:16.6-alpine"
 )
 
 for image in "${images[@]}"; do
