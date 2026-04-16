@@ -1,21 +1,22 @@
 #!/usr/bin/env bash
-# Installs VS Code and Continue.dev extension on Ubuntu
+# Installs VS Code and Continue.dev extension on Omarchy / Arch Linux.
 
 set -euo pipefail
 
 echo "=== Installing VS Code + Continue.dev ==="
 
-# Install VS Code via apt
+# Install VS Code from the AUR (visual-studio-code-bin) via yay.
+# Omarchy ships with yay; fall back to paru, then to the OSS `code` package.
 if ! command -v code &>/dev/null; then
-    echo "Installing VS Code..."
-    sudo apt-get update
-    sudo apt-get install -y wget gpg
-    wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor >packages.microsoft.gpg
-    sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
-    echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" | sudo tee /etc/apt/sources.list.d/vscode.list >/dev/null
-    rm -f packages.microsoft.gpg
-    sudo apt-get update
-    sudo apt-get install -y code
+    if command -v yay &>/dev/null; then
+        yay -S --needed --noconfirm visual-studio-code-bin
+    elif command -v paru &>/dev/null; then
+        paru -S --needed --noconfirm visual-studio-code-bin
+    else
+        echo "No AUR helper found. Installing OSS 'code' from extra repo instead."
+        echo "(Note: the OSS build can't install Microsoft marketplace extensions)"
+        sudo pacman -S --needed --noconfirm code
+    fi
 else
     echo "VS Code already installed."
 fi

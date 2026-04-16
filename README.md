@@ -1,12 +1,13 @@
 # Offline Development Environment
 
-A fully offline development setup for an Ubuntu Linux laptop with local AI coding tools.
+A fully offline development setup for an Omarchy / Arch Linux laptop with
+local AI coding tools. All install scripts use `pacman` and `yay`.
 
 ## Architecture
 
 ```
 ┌─────────────────────────────────────────────────┐
-│               Ubuntu Linux Laptop                │
+│               Omarchy Linux Laptop               │
 │                                                  │
 │  ┌──────────────┐   ┌────────────────────────┐  │
 │  │   Ollama     │   │      VS Code           │  │
@@ -37,7 +38,7 @@ A fully offline development setup for an Ubuntu Linux laptop with local AI codin
 | RAM       | 32 GB |
 | GPU       | NVIDIA RTX 4070 (8 GB VRAM) |
 | Storage   | 1 TB |
-| OS        | Ubuntu 24.04 LTS |
+| OS        | Omarchy (Arch Linux) |
 
 ## Models (Qwen 3.5 family only)
 
@@ -54,7 +55,7 @@ Total disk: ~34 GB. No accounts required. All inference runs locally via Ollama.
 
 ### 1. Ollama (LLM Runtime)
 Local model inference server. Runs models on your hardware.
-- Install: `curl -fsSL https://ollama.com/install.sh | sh`
+- Install: `sudo pacman -S ollama-cuda` (or plain `ollama` without NVIDIA)
 - See: `scripts/01_install_ollama.sh`
 
 ### 2. VS Code + Continue.dev (IDE)
@@ -76,12 +77,12 @@ Container runtime for development services.
 - See: `scripts/05_install_docker.sh`
 
 ### 6. Dev Tools (Languages, Package Managers)
-Python 3.12, Node.js 22 LTS, Git, uv, ripgrep, fd, jq.
+Python, Node.js LTS, Git, uv, ripgrep, fd, jq — all via `pacman`.
 - See: `scripts/07_install_devtools.sh`
 
 ## Setup Order
 
-### Phase 1: Install (on Ubuntu laptop, while online)
+### Phase 1: Install (while online)
 
 ```bash
 ./scripts/07_install_devtools.sh    # Python, Node, Git, uv first
@@ -91,6 +92,18 @@ Python 3.12, Node.js 22 LTS, Git, uv, ripgrep, fd, jq.
 ./scripts/04_install_aider.sh
 ./scripts/05_install_docker.sh
 ```
+
+Notes:
+- VS Code is installed via the AUR package `visual-studio-code-bin` using the
+  `yay` helper that ships with Omarchy. If `yay` is missing, the script falls
+  back to the `code` (OSS) package from the `extra` repo — that build cannot
+  install Microsoft-marketplace extensions.
+- `ollama` prefers `ollama-cuda` when an NVIDIA GPU is detected; the systemd
+  unit is enabled automatically.
+- `pipx` is installed via `pacman` as `python-pipx`.
+- After the scripts run, open a new shell (or `source ~/.bashrc`) so
+  `~/.local/bin` is on `PATH` — that's where `pipx` puts `aider` and the
+  OpenCode installer puts `opencode`.
 
 ### Phase 2: Cache everything (while online)
 

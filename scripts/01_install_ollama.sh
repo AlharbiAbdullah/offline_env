@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Installs Ollama for local LLM inference on Ubuntu
+# Installs Ollama for local LLM inference on Omarchy / Arch Linux.
 
 set -euo pipefail
 
@@ -10,7 +10,15 @@ if command -v ollama &>/dev/null; then
     exit 0
 fi
 
-curl -fsSL https://ollama.com/install.sh | sh
+# Prefer the CUDA build when an NVIDIA GPU is present.
+if lspci 2>/dev/null | grep -qi nvidia; then
+    sudo pacman -S --needed --noconfirm ollama-cuda || sudo pacman -S --needed --noconfirm ollama
+else
+    sudo pacman -S --needed --noconfirm ollama
+fi
+
+echo "Enabling ollama.service..."
+sudo systemctl enable --now ollama.service || true
 
 echo ""
 ollama --version

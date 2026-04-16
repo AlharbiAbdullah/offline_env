@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Installs Aider CLI coding agent
+# Installs Aider CLI coding agent on Omarchy / Arch Linux.
 
 set -euo pipefail
 
@@ -10,17 +10,25 @@ if ! command -v python3 &>/dev/null; then
     exit 1
 fi
 
-# Use pipx on Ubuntu 24.04+ (PEP 668 externally-managed-environment)
-if command -v pipx &>/dev/null; then
-    pipx install aider-chat
-else
-    sudo apt install -y pipx
+# Ensure pipx is available (PEP 668 externally-managed-environment)
+if ! command -v pipx &>/dev/null; then
+    sudo pacman -S --needed --noconfirm python-pipx
     pipx ensurepath
-    pipx install aider-chat
+fi
+
+# Install aider
+pipx install aider-chat --force
+
+# Make sure ~/.local/bin is on PATH for the current session
+if [[ -d "$HOME/.local/bin" ]]; then
+    case ":$PATH:" in
+        *":$HOME/.local/bin:"*) : ;;
+        *) export PATH="$HOME/.local/bin:$PATH" ;;
+    esac
 fi
 
 echo ""
-aider --version 2>/dev/null || echo "Restart terminal if aider command not found."
+aider --version 2>/dev/null || echo "Restart terminal if 'aider' command not found (pipx ensurepath needs a new shell)."
 
 # Copy config
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
