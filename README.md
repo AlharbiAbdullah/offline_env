@@ -1,6 +1,13 @@
 # Offline Development Environment
 
-A fully offline development setup for an Ubuntu Linux laptop with local AI coding tools.
+A fully offline development setup for a Linux laptop with local AI coding tools.
+
+Supported distributions:
+- **Ubuntu 24.04 LTS** (original target)
+- **Omarchy / Arch Linux** (via `pacman` + `yay`)
+
+All install scripts auto-detect the distro from `/etc/os-release` and use the
+appropriate package manager.
 
 ## Architecture
 
@@ -81,7 +88,10 @@ Python 3.12, Node.js 22 LTS, Git, uv, ripgrep, fd, jq.
 
 ## Setup Order
 
-### Phase 1: Install (on Ubuntu laptop, while online)
+### Phase 1: Install (while online)
+
+Run these on Ubuntu **or** Omarchy/Arch — each script detects the distro
+automatically.
 
 ```bash
 ./scripts/07_install_devtools.sh    # Python, Node, Git, uv first
@@ -89,8 +99,21 @@ Python 3.12, Node.js 22 LTS, Git, uv, ripgrep, fd, jq.
 ./scripts/02_install_vscode.sh
 ./scripts/03_install_opencode.sh
 ./scripts/04_install_aider.sh
-./scripts/05_install_docker.sh
+./scripts/05_install_docker.sh      # Ubuntu only (not yet ported to Arch)
 ```
+
+#### Omarchy / Arch notes
+
+- VS Code is installed via the AUR package `visual-studio-code-bin` using the
+  `yay` helper that ships with Omarchy. If `yay` is missing, the script falls
+  back to the `code` (OSS) package from the `extra` repo — but that build
+  cannot install Microsoft-marketplace extensions.
+- `ollama` is installed via `pacman` (prefers `ollama-cuda` if an NVIDIA GPU
+  is detected) and the systemd unit is enabled.
+- `pipx` is installed via `pacman` as `python-pipx`.
+- After running the scripts, open a new shell (or `source ~/.bashrc`) so
+  `~/.local/bin` is on `PATH` — that's where `pipx` puts `aider` and the
+  OpenCode installer puts `opencode`.
 
 ### Phase 2: Cache everything (while online)
 

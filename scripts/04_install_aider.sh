@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Installs Aider CLI coding agent
+# Installs Aider CLI coding agent on Ubuntu or Arch (Omarchy).
 
 set -euo pipefail
 
@@ -10,17 +10,43 @@ if ! command -v python3 &>/dev/null; then
     exit 1
 fi
 
-# Use pipx on Ubuntu 24.04+ (PEP 668 externally-managed-environment)
-if command -v pipx &>/dev/null; then
-    pipx install aider-chat
-else
-    sudo apt install -y pipx
+# Detect OS
+OS_ID="unknown"
+OS_ID_LIKE=""
+if [[ -r /etc/os-release ]]; then
+    # shellcheck disable=SC1091
+    . /etc/os-release
+    OS_ID="${ID:-unknown}"
+    OS_ID_LIKE="${ID_LIKE:-}"
+fi
+
+is_arch() {
+    [[ "$OS_ID" == "arch" ]] || [[ "$OS_ID_LIKE" == *"arch"* ]] || [[ "$OS_ID" == "omarchy" ]]
+}
+
+# Ensure pipx is available (PEP 668 externally-managed-environment on both distros)
+if ! command -v pipx &>/dev/null; then
+    if is_arch; then
+        sudo pacman -S --needed --noconfirm python-pipx
+    else
+        sudo apt install -y pipx
+    fi
     pipx ensurepath
-    pipx install aider-chat
+fi
+
+# Install aider
+pipx install aider-chat --force
+
+# Make sure ~/.local/bin is on PATH for the current session
+if [[ -d "$HOME/.local/bin" ]]; then
+    case ":$PATH:" in
+        *":$HOME/.local/bin:"*) : ;;
+        *) export PATH="$HOME/.local/bin:$PATH" ;;
+    esac
 fi
 
 echo ""
-aider --version 2>/dev/null || echo "Restart terminal if aider command not found."
+aider --version 2>/dev/null || echo "Restart terminal if 'aider' command not found (pipx ensurepath needs a new shell)."
 
 # Copy config
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
