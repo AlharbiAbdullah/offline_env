@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Installs Aider CLI coding agent on Ubuntu or Arch (Omarchy).
+# Installs Aider CLI coding agent on Omarchy / Arch Linux.
 
 set -euo pipefail
 
@@ -10,27 +10,9 @@ if ! command -v python3 &>/dev/null; then
     exit 1
 fi
 
-# Detect OS
-OS_ID="unknown"
-OS_ID_LIKE=""
-if [[ -r /etc/os-release ]]; then
-    # shellcheck disable=SC1091
-    . /etc/os-release
-    OS_ID="${ID:-unknown}"
-    OS_ID_LIKE="${ID_LIKE:-}"
-fi
-
-is_arch() {
-    [[ "$OS_ID" == "arch" ]] || [[ "$OS_ID_LIKE" == *"arch"* ]] || [[ "$OS_ID" == "omarchy" ]]
-}
-
-# Ensure pipx is available (PEP 668 externally-managed-environment on both distros)
+# Ensure pipx is available (PEP 668 externally-managed-environment)
 if ! command -v pipx &>/dev/null; then
-    if is_arch; then
-        sudo pacman -S --needed --noconfirm python-pipx
-    else
-        sudo apt install -y pipx
-    fi
+    sudo pacman -S --needed --noconfirm python-pipx
     pipx ensurepath
 fi
 
